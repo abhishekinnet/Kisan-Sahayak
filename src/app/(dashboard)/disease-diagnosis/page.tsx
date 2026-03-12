@@ -21,8 +21,10 @@ const initialState = {
 };
 
 export default function DiseaseDiagnosisPage() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [state, formAction] = useActionState(diagnoseDiseaseAction, initialState);
   const [preview, setPreview] = useState<string | null>(null);
+  const [capturedImageDataUri, setCapturedImageDataUri] = useState<string>('');
   const [isCameraOpen, setCameraOpen] = useState(false);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -68,6 +70,7 @@ export default function DiseaseDiagnosisPage() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result as string);
+        setCapturedImageDataUri(''); // Clear captured data if a file is selected
       };
       reader.readAsDataURL(file);
       setCameraOpen(false);
@@ -87,21 +90,23 @@ export default function DiseaseDiagnosisPage() {
       
       const dataUri = canvas.toDataURL('image/jpeg');
       setPreview(dataUri);
-      
-      // Convert data URI to File and set it to the file input
-      const res = await fetch(dataUri);
-      const blob = await res.blob();
-      const file = new File([blob], "capture.jpg", { type: "image/jpeg" });
-      
+      setCapturedImageDataUri(dataUri);
+
+      // Clear the file input if a file was previously selected
       if (fileInputRef.current) {
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(file);
-        fileInputRef.current.files = dataTransfer.files;
+        fileInputRef.current.value = "";
       }
       
       setCameraOpen(false);
     }
   };
+  
+  const handleReset = () => {
+    setPreview(null);
+    setCapturedImageDataUri('');
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    if (formRef.current) formRef.current.reset();
+  }
 
   return (
     <motion.div
@@ -116,7 +121,7 @@ export default function DiseaseDiagnosisPage() {
       </header>
       <div className="grid md:grid-cols-2 gap-8">
         <Card className="bg-card/70 backdrop-blur-sm">
-          <form action={formAction}>
+          <form ref={formRef} action={formAction}>
             <CardHeader>
               <CardTitle>Submit Crop Details</CardTitle>
               <CardDescription>Provide an image and details about your crop for analysis.</CardDescription>
@@ -147,10 +152,7 @@ export default function DiseaseDiagnosisPage() {
                     </div>
                   )}
                    {!isCameraOpen && preview && (
-                     <Button variant="destructive" size="icon" className="absolute top-2 right-2 h-7 w-7" onClick={() => {
-                        setPreview(null);
-                        if (fileInputRef.current) fileInputRef.current.value = "";
-                     }}>
+                     <Button variant="destructive" size="icon" className="absolute top-2 right-2 h-7 w-7" onClick={handleReset}>
                        <X className="h-4 w-4"/>
                        <span className="sr-only">Remove image</span>
                      </Button>
@@ -163,7 +165,9 @@ export default function DiseaseDiagnosisPage() {
                             Upload File
                         </div>
                     </Label>
-                    <Input ref={fileInputRef} id="photo" name="photo" type="file" required accept="image/*" onChange={handleImageChange} className="hidden" />
+                    <Input ref={fileInputRef} id="photo" name="photo" type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                    <input type="hidden" name="capturedPhoto" value={capturedImageDataUri} />
+
                     {isCameraOpen ? (
                         <Button type="button" onClick={handleCapture} className="flex-1" disabled={!hasCameraPermission}>
                             <Camera className="mr-2 h-4 w-4" />

@@ -18,18 +18,29 @@ export async function diagnoseDiseaseAction(
   prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
-  const photo = formData.get("photo") as File;
+  const photoFile = formData.get("photo") as File | null;
+  const capturedPhotoDataUri = formData.get("capturedPhoto") as string | null;
   const cropDetails = formData.get("cropDetails") as string;
   const soilTestResults = formData.get("soilTestResults") as string;
   const recentWeatherConditions = formData.get("recentWeatherConditions") as string;
 
-  if (!photo || !cropDetails) {
-    return { data: null, error: "Photo and crop details are required." };
+  let photoDataUri: string | null = null;
+
+  if (capturedPhotoDataUri) {
+    photoDataUri = capturedPhotoDataUri;
+  } else if (photoFile && photoFile.size > 0) {
+    photoDataUri = await fileToDataURI(photoFile);
+  }
+
+  if (!photoDataUri) {
+    return { data: null, error: "A crop photo is required for diagnosis." };
+  }
+  
+  if (!cropDetails) {
+    return { data: null, error: "Crop details are required." };
   }
 
   try {
-    const photoDataUri = await fileToDataURI(photo);
-
     const result = await diagnoseDiseaseFromImage({
       photoDataUri,
       cropDetails,

@@ -13,7 +13,7 @@ export function KpiCard({ title, value, change, changeType, icon: Icon }: KpiCar
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
         <p className="text-xs text-muted-foreground flex items-center gap-1">
-          <span className={cn("flex items-center gap-1", changeType === "increase" ? "text-green-600" : "text-red-600")}>
+          <span className={cn("flex items-center gap-1", changeType === "increase" ? "text-green-600" : "text-red-400")}>
             {changeType === "increase" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />}
             {change}
           </span>

@@ -74,7 +74,7 @@ export function AppSidebar() {
          <div className="flex flex-col gap-2 p-4 text-sm text-muted-foreground">
           <p>&copy; 2025 Kisan Sahayak</p>
           <p>Empowering Farmers with AI.</p>
-          <p>Made by Aditya Jha</p>
+          <p>Made by Abhishek Jha</p>
          </div>
       </SidebarFooter>
     </Sidebar>
