@@ -1,4 +1,4 @@
-# 🌾 Kisan-Sahayak
+.# 🌾 Kisan-Sahayak
 
 Kisan-Sahayak is a smart digital platform designed to empower farmers with real-time information, expert guidance, and modern agricultural tools. The system provides crop recommendations, weather updates, government schemes, chatbot support, video calling with experts, and more — all in one place.
 
@@ -110,7 +110,9 @@ Contributions, issues, and feature requests are welcome!
 Feel free to open a pull request.
 
 📬 Contact
-Developer: Abhishek jha 
+Developer: Abhishek jha
+
+Project Link:-https://github.com/abhishekinnet/Kisan-Sahayak.git
 
 
 📝 License
