@@ -110,8 +110,8 @@ Contributions, issues, and feature requests are welcome!
 Feel free to open a pull request.
 
 📬 Contact
-Developer: Abhinash Kumar
-GitHub: https://github.com/abhinashkumarin
+Developer: Abhishek jha 
+
 
 📝 License
 This project is licensed under the MIT License.
