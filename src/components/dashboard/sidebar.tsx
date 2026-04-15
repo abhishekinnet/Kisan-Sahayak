@@ -11,9 +11,12 @@ import {
   CloudSun, 
   FlaskConical, 
   Landmark, 
-  Leaf, 
-  LayoutDashboard, 
-  Users 
+  Leaf,
+  LayoutDashboard,
+  Users,
+  Satellite,
+  ShoppingCart,
+  Tractor
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -37,6 +40,9 @@ const navItems = [
   { href: "/financial-ledger", label: "Financial Ledger", icon: Book },
   { href: "/schemes", label: "Govt. Schemes", icon: Landmark },
   { href: "/expert-connect", label: "Expert Connect", icon: Users },
+  { href: "/satellite-image", label: "Satellite Analysis", icon: Satellite },
+  { href: "/e-commerce", label: "Agri Marketplace", icon: ShoppingCart },
+  { href: "/rental", label: "Equipment Rental", icon: Tractor },
 ];
 
 export function AppSidebar() {
